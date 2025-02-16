@@ -1,0 +1,16 @@
+.strike-through{
+    text-decoration: line-through;
+    color: #999;
+}
+#list-container>div{
+    display: flex;
+    align-items: center;
+    margin: 5px;
+}
+#list-container label{
+    display: inline-block;
+    width: 200px;
+}
+#list-container .del-btn:hover{
+    font-size: 30px;
+}
