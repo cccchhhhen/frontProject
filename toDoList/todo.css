@@ -11,6 +11,11 @@
     display: inline-block;
     width: 200px;
 }
+/* 鼠标移到删除按钮上改变样式 */
 #list-container .del-btn:hover{
-    font-size: 30px;
+    background-color: #e4e0e0;
+    width: 16px;
+    text-align: center;
+    color: white;
+    /* font-size: 30px; */
 }

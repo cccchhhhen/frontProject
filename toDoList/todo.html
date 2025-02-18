@@ -4,100 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>to do list</title>
-    <!-- <link rel="stylesheet" href="./todo.css" type="text/css"> -->
-    <style>
-        .strike-through{
-            text-decoration: line-through;
-            color: #999;
-        }
-        #list-container>div{
-            display: flex;
-            align-items: center;
-            margin: 5px;
-        }
-        #list-container label{
-            display: inline-block;
-            width: 200px;
-        }
-        /* 鼠标移到删除按钮上改变样式 */
-        #list-container .del-btn:hover{
-            background-color: #e4e0e0;
-            width: 16px;
-            text-align: center;
-            color: white;
-            /* font-size: 30px; */
-        }
-    </style>
+    <link rel="stylesheet" href="./todo.css" type="text/css">
+    <select name="status" id="statusSelect">
+        <option value="all">ALL</option>
+        <option value="finished">finished</option>
+        <option value="unfinished">unfinished</option>
+    </select>
 </head>
 <body>
-    <input id="inputContent" type="text" placeholder="please enter the to-do items">
+    <input id="inputBox" type="text" placeholder="please enter the to-do items">
     <button onclick="addItems()">ADD</button>
     <div>
         <p>to do list</p>
         <div id="list-container"></div>
     </div>
-    <!-- <script src="./todo.js"></script> -->
-     <script>
-        // 判断浏览器是否支持本地存储
-        if(!window.localStorage) {
-            alert('不支持本地存储!');
-            // return false;
-        }
-        else{
-            console.log('支持本地存储');
-            var storage=window.localStorage;
-        }
-
-        function addItems(){
-            var enter = document.querySelector('#inputContent');
-            var list_container = document.querySelector('#list-container');
-            if(enter.value.trim() === ''){ // 如果没有输入待办事项
-                alert('Please enter the to-do items.');
-                return;
-            }
-            
-            // 创建容器
-            var perListBox = document.createElement('div');
-            perListBox.className = 'list-item';
-
-            // 创建复选框
-            var input = document.createElement('input');
-            input.type = 'checkbox';
-
-            // 创建关联标签
-            var label = document.createElement('label');
-            label.textContent = enter.value;
-
-            // 创建删除按钮
-            var del = document.createElement('span');
-            del.className = 'del-btn';
-            del.textContent = '×';
-            del.onclick = function() {
-                perListBox.remove();
-            };
-
-            // 事件绑定
-            input.onchange = function() {
-                toggleList(this);
-            };
-
-
-            // 组装元素
-            perListBox.appendChild(input);
-            perListBox.appendChild(label);
-            perListBox.appendChild(del);
-            list_container.appendChild(perListBox);
-            // 清除输入框
-            enter.value = '';
-            
-        }
-
-        // 切换复选框状态(勾选、不勾选)
-        function toggleList(checkbox){
-            var label = checkbox.parentElement.querySelector('label');
-            label.classList.toggle('strike-through',checkbox.checked);
-        }
-     </script>
+    <script src="./todo.js"></script>
     
 </body>
 </html>
