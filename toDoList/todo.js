@@ -4,7 +4,7 @@ if(!window.localStorage) {
     // return false;
 }
 else{
-    localStorage.clear();
+    // localStorage.clear();
     console.log('支持本地存储');
 }
 var enter = document.querySelector('#inputBox');
@@ -56,13 +56,20 @@ function createItem(key){
     };
 
     let newValue = JSON.parse(localStorage.getItem(key));
-    // console.log('newKey1',newKey);
-    Object.assign(newValue,{'checked':false});
-    // console.log('newKey',newKey);
+    // console.log('newValue.checked',newValue.checked);
+    if(newValue.checked === undefined){
+        // console.log('aaaaa',typeof newValue.checked);
+        Object.assign(newValue,{'checked':false});
+    }
+    input.checked = newValue.checked;
+    if(input.checked){
+        label.classList.add('strike-through');
+    }
     localStorage.setItem(key,JSON.stringify(newValue))
     // 复选框事件绑定
     input.onchange = function() {
         toggleList(key,this);
+        // input.checked = 
     };
 
     // 组装元素
@@ -77,10 +84,7 @@ function createItem(key){
 // 切换复选框状态(勾选、不勾选)
 function toggleList(key,checkbox){
     let value = JSON.parse(localStorage.getItem(key));
-    // console.log('checked',checked);
     value.checked = !value.checked;
-    
-    // let status = !localStorage.key.checked;
     localStorage.setItem(key,JSON.stringify(value));
     var label = checkbox.parentElement.querySelector('label');
     label.classList.toggle('strike-through',checkbox.checked);
