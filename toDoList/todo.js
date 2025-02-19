@@ -4,12 +4,13 @@ if(!window.localStorage) {
     // return false;
 }
 else{
-    // localStorage.clear();
+    localStorage.clear();
     console.log('支持本地存储');
 }
 var enter = document.querySelector('#input-box');
 var list_container = document.querySelector('#list-container');
 var status_select = document.querySelector('#status-select');
+var datatime_local = document.querySelector('input[type="datetime-local"]');
 const pre = 'toDoList ';
 toDoListInit();
 function toDoListInit(){
@@ -21,17 +22,22 @@ function toDoListInit(){
         }
     }
 }
+
+// 添加待办事项
 function addItems(){
     if(enter.value.trim() === ''){ // 如果没有输入待办事项
         alert('Please enter the to-do items.');
         return;
     }
     let key = pre + new Date().valueOf();
-    let value = {'value':enter.value};
+    // console.log('datatime_local',datatime_local.value);
     
+    let value = {'value':`${enter.value}   ${datatime_local.value}`};
+    const remainderTime = new Date(datatime_local.value);
+    setRemainder(enter.value,remainderTime);
+    // key = pre + key;
     localStorage.setItem(key,JSON.stringify(value));
-    createItem(key);
-    console.log('status_select.options',status_select.options[0].selected);
+    createItem(key,datatime_local.value);
     status_select.options[0].selected = true;
     filterItems('all');
 }
@@ -76,8 +82,10 @@ function createItem(key){
     perListBox.appendChild(label);
     perListBox.appendChild(del);
     list_container.appendChild(perListBox);
+
     // 清除输入框
     enter.value = '';
+    datatime_local.value = '';
 }
 
 // 切换复选框状态(勾选、不勾选)
@@ -91,7 +99,6 @@ function toggleList(key,checkbox){
 
 // 切换状态
 function filterItems(status){
-    // console.log('filterItems',status);
     list_container.replaceChildren();
     if(localStorage.length>0){
         for(let i=0;i<localStorage.length;i++){
@@ -111,4 +118,17 @@ function filterItems(status){
         }
     }
 
+}
+
+function setRemainder(value,remainderTime){
+    const currentTime = new Date();
+    let timeDiff =  remainderTime.getTime() - currentTime.getTime();
+    if(timeDiff>0){
+        setTimeout(() => {
+            alert(`提醒：${value}时间到了`);
+        },timeDiff);
+    }
+    else{
+        console.log('提醒时间已过');
+    }
 }

@@ -9,14 +9,15 @@
 </head>
 <body>
     <input id="input-box" type="text" placeholder="please enter the to-do items">
+    <input type="datetime-local">
     <button onclick="addItems()">ADD</button>
     <select name="status" id="status-select" onchange="filterItems(this.value)">
         <option value="all" selected>all</option>
-        <option value="finished">finished</option>
+        <option value="finished">finished</option> 
         <option value="unfinished">unfinished</option>
     </select>
     <div>
-        <p>to do list</p>
+        <h1>ToDo List</h1>
         <div id="list-container"></div>
     </div>
     
