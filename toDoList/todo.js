@@ -7,13 +7,12 @@ else{
     // localStorage.clear();
     console.log('支持本地存储');
 }
-var enter = document.querySelector('#inputBox');
+var enter = document.querySelector('#input-box');
 var list_container = document.querySelector('#list-container');
+var status_select = document.querySelector('#status-select');
 const pre = 'toDoList ';
-
 toDoListInit();
 function toDoListInit(){
-    // var flag = true;
     if(localStorage.length>0){
         for(let i=0;i<localStorage.length;i++){
             if(localStorage.key(i).slice(0,pre.length) === pre){
@@ -32,6 +31,9 @@ function addItems(){
     
     localStorage.setItem(key,JSON.stringify(value));
     createItem(key);
+    console.log('status_select.options',status_select.options[0].selected);
+    status_select.options[0].selected = true;
+    filterItems('all');
 }
 function createItem(key){
     // 创建容器
@@ -56,9 +58,7 @@ function createItem(key){
     };
 
     let newValue = JSON.parse(localStorage.getItem(key));
-    // console.log('newValue.checked',newValue.checked);
     if(newValue.checked === undefined){
-        // console.log('aaaaa',typeof newValue.checked);
         Object.assign(newValue,{'checked':false});
     }
     input.checked = newValue.checked;
@@ -69,7 +69,6 @@ function createItem(key){
     // 复选框事件绑定
     input.onchange = function() {
         toggleList(key,this);
-        // input.checked = 
     };
 
     // 组装元素
@@ -90,3 +89,26 @@ function toggleList(key,checkbox){
     label.classList.toggle('strike-through',checkbox.checked);
 }
 
+// 切换状态
+function filterItems(status){
+    // console.log('filterItems',status);
+    list_container.replaceChildren();
+    if(localStorage.length>0){
+        for(let i=0;i<localStorage.length;i++){
+            let key = localStorage.key(i);
+            if(key.slice(0,pre.length) === pre){
+                let value = JSON.parse(localStorage.getItem(key));
+                if(status === 'finished' && value.checked === true){
+                    createItem(key);
+                }
+                else if(status === 'unfinished' && value.checked === false){
+                    createItem(key);
+                }
+                else if(status === 'all'){
+                    createItem(key);
+                }                
+            }
+        }
+    }
+
+}

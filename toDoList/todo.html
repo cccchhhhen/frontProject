@@ -5,19 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>to do list</title>
     <link rel="stylesheet" href="./todo.css" type="text/css">
-    <select name="status" id="statusSelect">
-        <option value="all">ALL</option>
+    
+</head>
+<body>
+    <input id="input-box" type="text" placeholder="please enter the to-do items">
+    <button onclick="addItems()">ADD</button>
+    <select name="status" id="status-select" onchange="filterItems(this.value)">
+        <option value="all" selected>all</option>
         <option value="finished">finished</option>
         <option value="unfinished">unfinished</option>
     </select>
-</head>
-<body>
-    <input id="inputBox" type="text" placeholder="please enter the to-do items">
-    <button onclick="addItems()">ADD</button>
     <div>
         <p>to do list</p>
         <div id="list-container"></div>
     </div>
+    
     <script src="./todo.js"></script>
     
 </body>
