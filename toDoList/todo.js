@@ -4,16 +4,24 @@ if(!window.localStorage) {
     // return false;
 }
 else{
-    localStorage.clear();
+    // localStorage.clear();
     console.log('支持本地存储');
 }
 var enter = document.querySelector('#input-box');
 var list_container = document.querySelector('#list-container');
 var status_select = document.querySelector('#status-select');
 var datatime_local = document.querySelector('input[type="datetime-local"]');
+const darkMode = 'darkMode';
+
 const pre = 'toDoList ';
 toDoListInit();
 function toDoListInit(){
+    if(localStorage.getItem(darkMode) == null){
+        localStorage.setItem(darkMode,0);
+    }
+    const flag = +localStorage.getItem(darkMode);
+    document.body.classList.toggle(darkMode,flag);
+
     if(localStorage.length>0){
         for(let i=0;i<localStorage.length;i++){
             if(localStorage.key(i).slice(0,pre.length) === pre){
@@ -30,12 +38,10 @@ function addItems(){
         return;
     }
     let key = pre + new Date().valueOf();
-    // console.log('datatime_local',datatime_local.value);
     
     let value = {'value':`${enter.value}   ${datatime_local.value}`};
     const remainderTime = new Date(datatime_local.value);
     setRemainder(enter.value,remainderTime);
-    // key = pre + key;
     localStorage.setItem(key,JSON.stringify(value));
     createItem(key,datatime_local.value);
     status_select.options[0].selected = true;
@@ -131,4 +137,11 @@ function setRemainder(value,remainderTime){
     else{
         console.log('提醒时间已过');
     }
+}
+var modeBtn = document.querySelector('#modeBtn');
+modeBtn.onclick = function(){
+    let _darkMode = localStorage.getItem(darkMode);
+    localStorage.setItem(darkMode,~(Number(_darkMode)));
+    document.body.classList.toggle('darkMode');
+
 }

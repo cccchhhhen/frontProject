@@ -1,3 +1,8 @@
+
+body.darkMode{
+    background-color: black;
+    color: white;
+}
 .strike-through{
     text-decoration: line-through;
     color: #999;
