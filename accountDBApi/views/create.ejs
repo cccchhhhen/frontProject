@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .group,button{
+            margin: 10px;
+        }
+        .group label, button{
+            font-size: large;
+            font-weight: bold;
+        }
+        input, select{
+            margin: 10px 0px;
+            width: 500px;
+        }
+        form{
+            width: 500px;
+        }
+        button{
+            width: 500px;
+        }
+        
+    </style>
+</head>
+<body>
+    <h3>新增记录</h3>   
+    <hr>
+    <form action="/account" method="post">
+        <div class="group">
+            <label for="title">事件</label><br>
+            <input type="text" name="title">
+        </div>
+
+        <div class="group">
+            <label for="time">时间</label><br>
+            <input type="datetime-local" name="time" id="time">
+        </div>
+
+        <div class="group">
+            <label for="type">类型</label><br>
+            <select name="type" id="type">
+                <option value="1">收入</option>
+                <option value="-1">支出</option>
+            </select>
+        </div>
+
+        <div class="group">
+            <label for="account">金额</label><br>
+            <input type="text" name="account" id="account">
+        </div>
+
+        <div class="group">
+            <label for="remark">备注</label><br>
+            <input type="text" name="reamrk" id="remark">
+        </div>
+        
+        <button type="submit">提交</button>
+    </form> 
+</body>
+</html>

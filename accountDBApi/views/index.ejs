@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>记账本</title>
+  <style>
+    .accountBox{
+      width: 500px;
+      margin: 20px auto;
+      border: 1px solid #cccccc;
+    }
+    .accountBox .time{
+      color: white;
+      padding: 5px;
+    }
+    .accountBox .type{
+      border-radius: 8px;
+      padding: 3px;
+      font-size: 10px;
+      margin: 0 10px;
+    }
+    .accountBox .content{
+      padding: 8px;
+    }
+    button{
+      margin: 20px;
+    }
+    .in .time{
+      background-color: rgb(148, 223, 148);
+      color: green;
+
+    }
+    .in .type{
+      background-color: rgb(180, 245, 180);
+      color: green;
+    }
+
+    .out .time{
+      background-color: pink;
+      color: rgb(194, 125, 159);
+    }
+    .out .type{
+      background-color: rgb(243, 196, 204);
+      color: rgb(231, 97, 120);
+    }
+    .accountBox .delLink{
+      text-decoration: none;
+      color: grey;
+    }
+    .accountBox .content{
+      display: inline-flex;
+    }
+    .accountBox .content .title{
+      /* width: 250px; */
+      min-width: 300px;
+      /* display: flex;
+      justify-content: space-evenly; */
+    }
+    .accountBox .content .type{
+      margin: 0 20px;
+    }
+    .accountBox .content .account{
+      width: 70px;
+    }
+    .accountBox .content .delLink{
+      margin:0  10px;
+    }
+    .accountBox .content .delLink:hover{
+      background-color: #cccccc;
+      color: white;
+    }
+    h2{
+      display: inline-block;
+    }
+  </style>
+</head>
+<body>
+  <h2>account</h2>
+  <a href="/account/create"><button>添加事项</button></a>
+  
+  <hr>
+  <% result.forEach( r => { %>
+  <div class="accountBox <%= r.type === 1 ? 'in' : 'out' %> ">
+    <div class="time"><%= r.time %></div>
+    <div class="content">
+      <span class="title"><%= r.title %></span>
+      <% if(r.type === -1){ %>
+      <span class="type">支出</span>
+        <% }else{ %>
+          <span class="type">收入</span>
+          <% } %>
+      <span class="account"><%= r.account %>元</span>
+      <a class="delLink" href="/account/<%= r.id %>">
+        <!-- 用r.id 或者 r._id 都可 -->
+        <span class="delBtn">×</span>
+      </a>
+    </div>
+  </div>
+  <% }) %>
+
+</body>
+</html>
