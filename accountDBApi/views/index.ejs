@@ -78,7 +78,10 @@
 <body>
   <h2>account</h2>
   <a href="/account/create"><button>添加事项</button></a>
-  <a href="/logout"><button>退出登录</button></a>
+  <form action="/logout" method="post">
+    <button>退出登录</button>
+  </form>
+  
   <hr>
   <% result.forEach( r => { %>
   <div class="accountBox <%= r.type === 1 ? 'in' : 'out' %> ">

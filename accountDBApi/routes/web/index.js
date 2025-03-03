@@ -5,6 +5,12 @@ let checkLoginMiddleware = require('../../middlewares/checkLoginMiddleWare');
 
 // router.use(checkLoginMiddleware);
 
+// 添加路由首页规则
+router.get('/', (req, res) => {
+  // 重定向 /account
+  res.redirect('/account');
+})
+
 // 账单列表
 router.get('/account', checkLoginMiddleware, function(req, res, next) {
   // 数据库获取数据
