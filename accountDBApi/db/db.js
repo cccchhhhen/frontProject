@@ -5,8 +5,9 @@ module.exports = function(success, error){
         }
     }
     const mongoose = require('mongoose');
-
-    mongoose.connect('mongodb://127.0.0.1:27017/account');
+    
+    let { DBHOST, DBPORT, DBNAME } = require('../config/config');
+    mongoose.connect(`mongodb://${DBHOST}:${DBPORT}/${DBNAME}`);
 
     let connection = mongoose.connection;
 
