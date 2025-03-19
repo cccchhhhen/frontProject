@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>account-list</title>
+    <style>
+        body{
+            background-color: #1A1A2E;
+            background-image: url('https://www.transparenttextures.com/patterns/fresh-snow.png');
+            color: #FFFFFF;
+        }
+    </style>
+</head>
+<body>
+    <h1>account-list</h1>
+    <div>
+
+    </div>
+    <script>
+        const xhr = new XMLHttpRequest();
+        // xhr.withCredentials = true; // 允许携带Cookie
+        xhr.open('GET','http://127.0.0.1:3000/account-list');
+        xhr.responseType = 'json';
+
+        // 设置自定义请求头（字段名为 'token'）
+        xhr.setRequestHeader('token', `${sessionStorage.getItem('chen_token')}`); // 触发OPTIONS预检
+        xhr.send();
+        xhr.onreadystatechange = function(){
+            if(xhr.readyState === 4){
+                if(xhr.status >= 200 & xhr.status < 300){
+                    // 2002 token is empty 2003 token verify fail
+                    if(xhr.response.code === '2002' || xhr.response.code === '2003'){
+                        let host = location.host;
+                        window.location.href = `http://${host}/front/views/login.html`;
+                    }
+                    console.log(xhr.response);
+                }
+            }
+        }
+    </script>
+</body>
+</html>

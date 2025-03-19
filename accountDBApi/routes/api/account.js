@@ -1,42 +1,39 @@
 const express = require('express');
 const router = express.Router();
 const AccountModel = require('../../models/AccountModel');
+const jwt = require('jsonwebtoken');
+let tokenMiddleWare = require('../../middlewares/tokenMiddldeWare');
 
 // 记账本列表
-router.get('/account', function(req, res, next) {
-  // 数据库获取数据
-  AccountModel.find()
-  .then( result => {
-    // res.render('index',{result});
-  // 响应成功的提示
-    res.json({
-      // 响应编号
-      code: '0000',
-      // 响应的信息
-      msg: '读取成功',
-      // 响应的数据
-      data: result
-    });
-    return;
-  })
-  .catch((err) => {
-    // console.log('获取数据出错啦~~~');
-    res.json({
-      code:'1001',
-      msg: '读取失败',
-      data:null
+router.get('/account', tokenMiddleWare, function(req, res, next) {
+    console.log(req.user);
+    // 数据库获取数据
+    AccountModel.find()
+    .then( result => {
+    // 响应成功的提示
+      res.json({
+        // 响应编号
+        code: '0000',
+        // 响应的信息
+        msg: '读取成功',
+        // 响应的数据
+        data: result
+      });
+      return;
     })
-    // return;
-  });
+    .catch((err) => {
+      res.json({
+        code:'1001',
+        msg: '读取失败',
+        data:null
+      })
+      // return;
+    });
+  
 });
 
-// 添加记录 响应html的  不需要 接口服务里只会响应json数据
-// router.get('/account/create', function(req, res, next) {
-//   res.render('create');
-// })
-
 // 新增记录
-router.post('/account', function (req, res, next){
+router.post('/account', tokenMiddleWare, function (req, res, next){
   // 此处可进行表单验证
   // 验证没个参数是否正确，即时给客户端返回消息
 
@@ -63,7 +60,7 @@ router.post('/account', function (req, res, next){
 })
 
 // 删除记录
-router.delete('/account/:id', (req, res) => {
+router.delete('/account/:id', tokenMiddleWare, (req, res) => {
   let id = req.params.id;
   AccountModel.deleteOne({_id:id})
   .then(() => {
@@ -86,7 +83,7 @@ router.delete('/account/:id', (req, res) => {
 })
 
 // 获取单个账单信息
-router.get('/account/:id', (req, res) => {
+router.get('/account/:id', tokenMiddleWare, (req, res) => {
   let {id} = req.params;
   AccountModel.findById(id)
   .then( data => {
@@ -106,7 +103,7 @@ router.get('/account/:id', (req, res) => {
 })
 
 // 更新单个账单信息
-router.patch('account/:id', (req, res) => {
+router.patch('account/:id', tokenMiddleWare, (req, res) => {
   let { id } = req.params;
   AccountModel.updateOne({_id: id}, req.body)
   .then( data => {

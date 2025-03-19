@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>login</title>
+    <style>
+        .regResult{
+            /* display: none; */
+            opacity: 0;
+            background-color: aqua;
+            transition: all .5s;
+
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <form id="registration-form" autocapitalize="false">
+            <label for="username">用户名</label>
+            <input type="text" id="username" name="username"><br>
+            <label for="password">密码</label>
+            <input type="password" id="password" name="password">
+            <button type="submit">登录</button>
+            <button><a href="/front/views/reg.html">注册账号</a></button>
+            <div class="regResult">result</div>
+        </form>
+    </div>
+    <script>
+            // console.log(document.location)
+        const form = document.querySelector('#registration-form');
+        const regResultDiv = document.querySelector('.regResult');
+        let result = '登录失败，请稍后重试';
+        form.addEventListener('submit', function(e){
+            e.preventDefault();
+            const username = e.target.username.value;
+            const password = e.target.password.value;
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST','http://127.0.0.1:3000/login');
+            xhr.responseType='json';
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded'); // after open
+
+            xhr.send(`username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`); // 请求体内容
+            xhr.onreadystatechange = function(){
+                if(xhr.readyState === 4){
+                    if(xhr.status >= 200 && xhr.status < 300){
+                        // registration success
+                        if(xhr.response.code === '0000'){
+                            result = '登录成功！';
+                            sessionStorage.setItem('chen_token',`${xhr.response.data}`)
+
+                        }
+                        else{
+                            result = '登录失败，请稍后重试';
+                        }
+                        // clear input box
+                        e.target.username.value='';
+                        e.target.password.value='';
+                        regResultDiv.style.opacity = 1;
+                        regResultDiv.innerHTML = result;
+                        setTimeout(() => {
+                            regResultDiv.style.opacity = 0;
+                            if(xhr.response.code === '0000'){
+                                result = '登录成功！';
+                                let host = location.host;
+                                window.location.href = `http://${host}/front/views/account-list.html`;
+                            }
+                        }, 2000);
+                        
+                    }
+                }
+            }
+        })
+    </script>
+</body>
+</html>
