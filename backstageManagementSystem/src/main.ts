@@ -8,11 +8,21 @@ import 'element-plus/dist/index.css'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 // 引入 pinia
 import { createPinia } from 'pinia';
+// 引入 mockjs
+import "@/api/mock.ts"
+// 引入api
+import api from "@/api/api";
 const app = createApp(App);
 
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
     app.component(key, component)
   }
+
+// 挂载全局api -> 不推荐
+app.config.globalProperties.$api = api;
+
+// 全局挂载
+// app.provide('$api', api)
 
 const pinia = createPinia();
 app.use(router);

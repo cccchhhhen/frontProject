@@ -7,5 +7,9 @@
     {
       "path": "./tsconfig.app.json"
     }
-  ]
+  ],
+  "compilerOptions": {
+    "types": ["mockjs"] // 确保包含 mockjs 类型
+  }
+
 }
