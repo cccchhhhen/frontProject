@@ -4,7 +4,8 @@
         <el-menu class="el-menu" 
         :collapse="isCollapse" 
         :collapse-transition="false"
-        default-active="/home">
+        default-active="/home"
+        router="true">
             <h3 v-if="!isCollapse">bgStoreMGTSys</h3>
             <h3 v-else>bgSys</h3>
             <el-menu-item
@@ -19,6 +20,7 @@
                 v-for="item in hasChildren"
                 :index="item.path" 
                 :key="item.path"
+                
             >   
                 <template #title>
                     <component class="icons" :is="item.icon"></component>

@@ -9,7 +9,7 @@ export default {
         return request ({
             url:'/api/home/getTableData',
             method: 'get',
-            // mock: false
+            mock: false
         });
     },
     getCountData(){
@@ -17,5 +17,18 @@ export default {
             url:'/api/home/getCountData',
             method: 'get',
         });
-    }
+    },
+    getChartData(){
+        return request ({
+            url:'/api/home/getChartData',
+            method: 'get',
+        });
+    },
+    getUserData(params: any) {
+        return request({
+          url: '/user/getUserData',
+          method: 'get',
+          data: params
+        })
+      },
 }
