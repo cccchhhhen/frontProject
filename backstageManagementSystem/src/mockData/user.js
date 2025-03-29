@@ -60,4 +60,72 @@ export default {
     }
   },
 
+  /**
+   * 删除用户
+   * @param id
+   * @return {*}
+   */
+  deleteUser: config => {
+    const { id } = param2Obj(config.url)
+
+    if (!id) {
+      return {
+        code: -999,
+        message: '参数不正确'
+      }
+    } else {
+      List = List.filter(u => u.id !== id)
+      return {
+        code: 200,
+        message: '删除成功'
+      }
+    }
+  },
+  /**
+   * 增加用户
+   * @param name, addr, age, birth, sex
+   * @return {{code: number, data: {message: string}}}
+   */
+  createUser: config => {
+    const { name, addr, age, birth, sex } = JSON.parse(config.body)
+    List.unshift({
+      id: Mock.Random.guid(),
+      name: name,
+      addr: addr,
+      age: age,
+      birth: birth,
+      sex: sex
+    })
+    return {
+      code: 200,
+      data: {
+        message: '添加成功'
+      }
+    }
+  },
+  /**
+   * 修改用户
+   * @param id, name, addr, age, birth, sex
+   * @return {{code: number, data: {message: string}}}
+   */
+  updateUser: config => {
+    const { id, name, addr, age, birth, sex } = JSON.parse(config.body)
+    const sex_num = parseInt(sex)
+    List.some(u => {
+      if (u.id === id) {
+        u.name = name
+        u.addr = addr
+        u.age = age
+        u.birth = birth
+        u.sex = sex_num
+        return true
+      }
+    })
+    return {
+      code: 200,
+      data: {
+        message: '编辑成功'
+      }
+    }
+  }
 }

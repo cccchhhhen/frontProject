@@ -4,7 +4,7 @@
         <el-menu class="el-menu" 
         :collapse="isCollapse" 
         :collapse-transition="false"
-        default-active="/home"
+        :default-active="activeMenu"
         router="true">
             <h3 v-if="!isCollapse">bgStoreMGTSys</h3>
             <h3 v-else>bgSys</h3>
@@ -12,6 +12,7 @@
                 v-for="item in noChildren"
                 :index="item.path" 
                 :key="item.path"
+                @click="handleMenu(item)"
             >
                 <component class="icons" :is="item.icon"></component>
                 <span>{{ item.label }}</span>
@@ -31,6 +32,7 @@
                     v-for="(subItem,subIndex) in item.children"
                     :index="subItem.path" 
                     :key="subItem.path"
+                    @click="handleMenu(subItem)"
                     >
                         <component class="icons" :is="subItem.icon"></component>
                         <span>{{ subItem.label }}</span>
@@ -47,33 +49,52 @@
 <script setup lang="ts">
     import { ref, computed } from 'vue'; 
     import { useAllDataStore } from '@/stores';
-    const list = ref([
-        {
-            path: '/home', name: 'home', label: '首页', icon: 'house', url: 'Home'
-        },
-        {
-            path: '/mall', name: 'mall', label: '商品管理', icon: 'video-play', url: 'Mall'
-        },
-        {
-            path: '/user', name: 'user', label: '用户管理', icon: 'user', url: 'User'
-        },
-        {
-            path: '/other', name: 'home', label: '其他', icon: 'location', url: 'home',
-            children: [
-                {
-                    path: '/page1', name: 'page1', label: '页面1', icon: 'setting', url: 'Page1'
-                },
-                {
-                    path: '/page2', name: 'page2', label: '页面2', icon: 'setting', url: 'Page2'
-                }
-            ]
-        }
-        ])
+    import { useRoute, useRouter } from 'vue-router';
+    import { type routeItem } from '@/type'
+    // const router = useRouter();
+    const route = useRoute();
+    const activeMenu = computed(()=>route.path)
+
+    // interface routeItem{
+    //     path: String,
+    //     name: String,
+    //     label: String,
+    //     icon: String,
+    //     url: String,
+    //     children?: routeItem[]
+    // }
+    // const list = ref([
+    //     {
+    //         path: '/home', name: 'home', label: '首页', icon: 'house', url: 'Home'
+    //     },
+    //     {
+    //         path: '/mall', name: 'mall', label: '商品管理', icon: 'video-play', url: 'Mall'
+    //     },
+    //     {
+    //         path: '/user', name: 'user', label: '用户管理', icon: 'user', url: 'User'
+    //     },
+    //     {
+    //         path: '/other', name: 'home', label: '其他', icon: 'location', url: 'home',
+    //         children: [
+    //             {
+    //                 path: '/page1', name: 'page1', label: '页面1', icon: 'setting', url: 'Page1'
+    //             },
+    //             {
+    //                 path: '/page2', name: 'page2', label: '页面2', icon: 'setting', url: 'Page2'
+    //             }
+    //         ]
+    //     }
+    //     ])
     const stores = useAllDataStore();
+    const list = computed<routeItem[]>(()=>stores.state.menuList);
+    console.log(list)
     const noChildren = computed( () => list.value.filter( item => !item.children))
     const hasChildren = computed( () => list.value.filter( item => item.children))
     let isCollapse = computed(() => stores.state.isCollapse);
     let width = computed(()=>stores.state.isCollapse ? '64px' : '180px')
+    const handleMenu = (item: any) => {
+        stores.selectMenu(item);
+    }
 </script>
 
 <style scoped lang="less">

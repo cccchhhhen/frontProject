@@ -30,5 +30,33 @@ export default {
           method: 'get',
           data: params
         })
-      },
+    },
+    deleteUser(params: any) {
+        return request({
+          url: '/user/deleteUser',
+          method: 'get',
+          data: params
+        })
+    },
+    addUser(params: any) {
+        return request({
+          url: '/user/addUser',
+          method: 'post',
+          data: params
+        })
+    },
+    editUser(params: any) {
+        return request({
+          url: '/user/editUser',
+          method: 'post',
+          data: params
+        })
+    },
+    getMenu(params: any) {
+        return request({
+          url: '/permission/getMenu',
+          method: 'post',
+          data: params
+        })
+    }
 }
